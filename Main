@@ -1,0 +1,110 @@
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+#include <cstdio>
+#include <ctime>
+using namespace std;
+
+int intValidInput(){
+    int x;
+    x = 0;
+    cin >> x;
+    if (!cin){
+        cout << "Invalid input, try again\n";
+        cin.clear();
+        cin.ignore(256, '\n');
+        x = intValidInput();
+    }
+    return x;
+}
+
+int main() {
+    int i;
+    int n;
+    int computerInput;
+    int userInput;
+    int computerWins;
+    int userWins;
+    int gameTies;
+    bool endLoop;
+    
+    endLoop = false;
+    computerWins = 0;
+    userWins = 0;
+    gameTies = 0;
+    srand(time(NULL));
+    cout << "Welcome to the rock, paper, scissors game! enter 1 for rock, 2 for scissors, and 3 for paper. You will play games against the computer.\n";
+    cout << "How many games would you like to play?\n";
+    n = intValidInput();
+    cout <<"\n";
+    for (i=0 ; i<n ; i++){
+        cout << "Your play: \n";
+        cin >> userInput;
+        do {
+        switch (userInput){
+            case 1:
+                cout << "Your choice: rock\n";
+                endLoop = true;
+                break;
+            case 2:
+                cout << "Your choice: paper\n";
+                endLoop = true;
+                break;
+            case 3:
+                cout << "Your choice: scissors\n";
+                endLoop = true;
+                break;
+            default:
+                if (!(!cin) && userInput < 1 || userInput > 3)
+                    cout << "Invalid input, try again\n";
+                userInput = intValidInput();
+                endLoop = false;
+        }
+        }
+        while (endLoop == false);
+        computerInput = rand() % 3+1;
+        switch (computerInput){
+            case 1:
+                cout << "Computer: rock\n";
+                break;
+            case 2:
+                cout << "Computer: paper\n";
+                break;
+            case 3:
+                cout << "Computer: scissors\n";
+                break;
+            default:
+                cout << "wut?" << computerInput << "\n";
+		}
+		if (userInput > computerInput || userInput == 1 && computerInput == 3) {
+            if (computerInput == 1 && userInput == 3) {
+                computerWins = computerWins + 1;
+                cout << "You lose!\n\n";
+		    }
+            else {
+                userWins = userWins +1;
+                cout << "You win!\n\n";
+            }
+	    }
+		else if (computerInput > userInput) {
+            computerWins = computerWins +1;
+            cout << "You lose!\n\n";
+		}
+		else {
+            gameTies = gameTies +1;
+            cout << "Tie!\n\n";
+		}
+		cin.ignore(256, '\n');
+    }
+    if (userWins > computerWins) {
+        cout << "\nYou win the entire game!\n";
+    }
+    else if (computerWins > userWins) {
+        cout << "\nYou lost the entire game!\n";
+    }
+    else {
+        cout << "\nTie for the entire game!\n";
+    }
+    cout << "Total number of user wins: " << userWins << "\nTotal number of computer wins: " << computerWins << "\nTotal number of ties: " << gameTies <<"\nTotal number of games played: " << i << "\n";
+	return 0;
+}
